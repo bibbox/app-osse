@@ -1,0 +1,38 @@
+version: '2'
+
+networks:
+    bibbox-default-network:
+      external: true
+
+services:
+  §§INSTANCE-osse:
+    image: bibbox/osse
+    container_name:  §§INSTANCE-osse
+    restart: unless-stopped
+    networks:
+      - bibbox-default-network
+    volumes_from:
+      - §§INSTANCE-osse-data
+             
+  §§INSTANCE-db:
+    image: postgres-ssl:9.4
+    container_name:  §§INSTANCE-db   
+    restart: unless-stopped
+    networks:
+      - bibbox-default-network 
+    environment:
+      - POSTGRES_USER=webapp
+      - POSTGRES_PASSWORD=webapp
+    ports:
+      - "5432"
+
+  §§INSTANCE-osse-data:
+    image: busybox
+    container_name:  §§INSTANCE-rdrf-data
+    restart: unless-stopped
+    networks:
+      - bibbox-default-network
+    volumes:
+        - ./data:/data
+      
+      
